@@ -9,7 +9,8 @@
 	"Comments":"Make it fast at address 3945876 stre 786 city,country",
 	"TotalPrice":150.00,
 	"User":"61a49d6e8c212f65347a295d" (UserID)
-    "Email":"ali@gmail.com"
+    "Email":"ali@gmail.com",
+	"Image":"image of paid slip"
 	
 }
 ## Update Order Status

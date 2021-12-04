@@ -22,6 +22,9 @@ const OrderSchema = new mongoose.Schema({
   Email: {
     type: String,
   },
+  Image: {
+    type: String,
+  },
   Comments: {
     type: String
   },

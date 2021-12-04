@@ -5,7 +5,6 @@ const stripe = require('stripe')(process.env.Stripe_Secret_key)
 var elasticemail = require('elasticemail');
 const { authenticate } = require('../Middleware/auth')
 const nodemailer = require("nodemailer");
-var smtpTransport = require('nodemailer-smtp-transport');
 /***************Routes************/
 
 

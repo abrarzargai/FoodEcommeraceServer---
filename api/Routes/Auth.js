@@ -32,7 +32,8 @@ route.post('/email', async (req, res,next) => {
             subject: 'EveSpice App VerificationCode',
             text: `
             
-            Your Verification Code :${req.body.Code}
+            Thank you for registering to Evespices!
+             Please enter this verification code to finalize the registration process : :${req.body.Code}
             `
         };
         transporter.sendMail(mailOptions, function (error, info) {

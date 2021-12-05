@@ -1,4 +1,5 @@
 const userModel = require('../models/userModel');
+const AdminModel = require('../models/AdminModel');
 const catchAsync = require('../utils/catchAsync');
 const argon2 = require('argon2');
 var jwt = require('jsonwebtoken');
@@ -153,7 +154,7 @@ exports.GetWishList = catchAsync(async (req, res, next) => {
     
 })
 
-//Admin-Password Update
+//Password Update
 exports.UpdatePassword = catchAsync(async (req, res, next) => {
 
     const User = await userModel.find({ Email: req.body.Email })
@@ -163,6 +164,88 @@ exports.UpdatePassword = catchAsync(async (req, res, next) => {
 
             const Record = await userModel.updateOne({ Email: req.body.Email }, { Password: req.body.NewPassword });
           
+            if (Record.nModified > 0) {
+                return res.status(200).json({
+                    success: true, message: "Password Updated Successfully"
+                })
+            }
+            return res.status(500).json({
+                success: false, message: "Error!  Item Not-Updated Successfully"
+            })
+        }
+        else {
+            throw new Error('Error! Invalid Password');
+        }
+    }
+    else {
+        return next(new Error('User with this Email Not Found'))
+
+    }
+})
+
+  // AdminLogin
+exports.AdminLogin = catchAsync(async (req, res, next) => {
+
+    const User = await AdminModel.find({ Email: req.body.Email })
+    console.log("user===>", User[0])
+    if (User[0]) {
+        if (await argon2.verify(User[0].Password, req.body.Password)) {
+            const token = signToken(User[0]);
+            return res.status(200).json({
+                success: true, message: "Login Successfully", token, User
+            })
+        }
+        else {
+            throw new Error('Error! Invalid Password');
+        }
+    }
+    else {
+        return next(new Error('User Not Found'))
+
+    }
+})
+
+//AdminSignUp
+exports.AdminSignUp = catchAsync(async (req, res, next) => {
+
+    const User = await AdminModel.find({ email: req.body.Email })
+    if (User.length < 1) {
+        do {
+            const UserID = parseInt(Math.random() * 100000000)
+            const UserIDCheck = await AdminModel.find({ UserId: UserID })
+
+            if (UserIDCheck.length < 1) {
+                const Record = await AdminModel.create({ ...req.body, UserId: UserID })
+                console.log("UserIdCheck", Record)
+                if (!Record) {
+                    throw new Error('Error! User cannot be created');
+                }
+                else {
+                    return res.status(201).json({
+                        success: true, message: "Account Created Successfully", Record
+                    })
+                }
+            }
+        } while (UserIDCheck.length > 0)
+
+    }
+    else {
+        return next(new Error('Error! User with this Email already exist'))
+
+    }
+
+})
+
+//Password Update
+exports.AdminUpdatePassword = catchAsync(async (req, res, next) => {
+
+    const User = await AdminModel.find({ Email: req.body.Email })
+    console.log("user===>", User[0])
+    if (User[0]) {
+        if (await argon2.verify(User[0].Password, req.body.OldPassword)) {
+
+            const Record = await AdminModel.updateOne({ Email: req.body.Email }, { Password: req.body.NewPassword });
+
             if (Record.nModified > 0) {
                 return res.status(200).json({
                     success: true, message: "Password Updated Successfully"

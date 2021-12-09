@@ -75,15 +75,16 @@ exports.GetOrdersByUser = catchAsync(async (req, res, next) => {
 
 //Get All Orders on the search creteria of Status if it is pending approved or delevered
 exports.GetOrderByStatus = catchAsync(async (req, res, next) => {
+    console.log("req",req.body.Status)
 
     const data = await OrderModel.aggregate([
         {
             $lookup:
             {
                 from: 'users',
-                localField: 'AssignedRider',
+                localField: 'User',
                 foreignField: '_id',
-                as: 'AssignedRider'
+                as: 'User'
             },
         },
 
@@ -105,7 +106,7 @@ exports.GetOrderByStatus = catchAsync(async (req, res, next) => {
         },
 
     ])
-    console.log("===>>>", data)
+    console.log("statusorder===>>>", data)
     if (data.length > 0) {
 
         return res.status(200).json({

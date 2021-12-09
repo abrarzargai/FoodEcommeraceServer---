@@ -191,6 +191,7 @@ exports.AdminLogin = catchAsync(async (req, res, next) => {
     if (User[0]) {
         if (await argon2.verify(User[0].Password, req.body.Password)) {
             const token = signToken(User[0]);
+            console.log("Login Successfully token", token)
             return res.status(200).json({
                 success: true, message: "Login Successfully", token, User
             })

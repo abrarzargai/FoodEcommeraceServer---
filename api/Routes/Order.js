@@ -6,6 +6,7 @@ const OrderServices = require('../../Services/OrderServices')
 
 route.post('/Add', OrderServices.Add);
 route.post('/GetOrdersByUser', OrderServices.GetOrdersByUser);
+route.post('/GetOrderByStatus', OrderServices.GetOrderByStatus);
 route.post('/UpdateStatus', OrderServices.UpdateStatus);
 route.get('/GetAll', OrderServices.GetAllOrders);
 

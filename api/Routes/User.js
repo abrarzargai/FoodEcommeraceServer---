@@ -9,7 +9,7 @@ route.post('/signup',UserServices.SignUp);
 route.post('/login',UserServices.Login);
 route.post('/updatepassword', UserServices.UpdatePassword);
 route.post('/adminsignup', UserServices.AdminSignUp);
-route.post('/adminlogin', UserServices.Login);
+route.post('/adminlogin', UserServices.AdminLogin);
 route.post('/adminupdatepassword', UserServices.AdminUpdatePassword);
 
 module.exports = route;

@@ -28,7 +28,7 @@ route.post('/image', upload.single('image'), async (req, res) => {
     if (!file) {
         const error = new Error('Please upload a file')
         console.log('no-file')
-        return next(error)
+        throw new Error('Please upload a file')
     }
     cloudinary.v2.uploader.upload(file.path,
         function (error, result) { 

@@ -1,14 +1,19 @@
 const OrderModel = require('../models/OrderModel');
 const userModel = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
-
+const mongoose = require("mongoose");
+const ObjectId =mongoose.Types.ObjectId
 
 /***************Services************/
 
 //Add
 exports.Add = catchAsync(async (req, res, next) => {
-
-    const Order = await OrderModel.create({ ...req.body })
+    try{
+       
+    console.log("Order hit==>", req.body)
+       
+        
+        const Order = await OrderModel.create({ ...req.body })
     console.log("Order==>", Order)
     if (!Order) {
         throw new Error('Error! Order cannot be created');
@@ -23,6 +28,9 @@ exports.Add = catchAsync(async (req, res, next) => {
                 success: true, message: "Order Placed Successfully"
             })
         })
+    }
+    }catch(error){
+        console.log("error", error)
     }
 
 })
